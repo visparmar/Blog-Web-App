@@ -46,7 +46,7 @@ const [account,setaccount]=useState('login');
                         <TextField variant="standard" className='txtfield' label='Enter Password' />
                     </div>
                     <div className="button-login">
-                        <Button variant="contained">Login</Button>
+                        <Button variant="contained">Sign Up</Button>
                         <span>OR</span>
                         <Button className='create' onClick={()=>setaccount('login')}>Already have an Account</Button>
                     </div>
