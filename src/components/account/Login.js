@@ -1,12 +1,35 @@
 import React,{useState}from 'react';
 import { TextField, Button, } from '@mui/material';
+import {API} from '../service/api'
 import './Login.css'
 
 
+const signupInitialValues={
+    name:'',
+    username:'',
+    password:''
 
+}
 const Login = () => {
 
 const [account,setaccount]=useState('login');
+const [signup,setsignup]=useState(signupInitialValues)
+const [error,seterror]=useState('')
+
+const onInputChange=(e)=>{
+    setsignup({...signup,[e.target.name]:e.target.value});
+}
+
+const signupUser= async()=>{
+let response=await API.userSignup(signup)
+
+if(response.isSuccess){
+    setsignup(signupInitialValues);
+    setaccount('login')
+}else{
+   seterror("Something went wrong please try again later");
+}
+}
     return (
         <>
              
@@ -41,12 +64,13 @@ const [account,setaccount]=useState('login');
                     </div>
                     <div className="info-input">
 
-                    <TextField variant="standard" className='txtfield' label='Enter Name' />
-                        <TextField variant="standard" className='txtfield' label='Enter Username' />
-                        <TextField variant="standard" className='txtfield' label='Enter Password' />
+                    <TextField variant="standard" onChange={(e)=> onInputChange(e)} className='txtfield' name='name' label='Enter Name' />
+                        <TextField variant="standard" onChange={(e)=> onInputChange(e)} className='txtfield' name='username' label='Enter Username' />
+                        <TextField variant="standard" onChange={(e)=> onInputChange(e)} className='txtfield' name='password' label='Enter Password' />
                     </div>
                     <div className="button-login">
-                        <Button variant="contained">Sign Up</Button>
+                        {error && <error>{error}</error>}
+                        <Button variant="contained" onClick={()=>signupUser()}>Sign Up</Button>
                         <span>OR</span>
                         <Button className='create' onClick={()=>setaccount('login')}>Already have an Account</Button>
                     </div>
